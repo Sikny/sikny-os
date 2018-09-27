@@ -118,10 +118,12 @@ void terminal_writestr(const char* data){
 // Kernel entry
 void kernel_main(void){
   terminal_init();
-	for(int ind = 0; ind < 24; ind++)
+	for(int ind = 1; ind <= 15; ind++){
+		terminal_color = vga_entry_color(ind, VGA_COLOR_BLACK);
 		terminal_writestr("ok\n");
-	terminal_writestr("scrolling\n");
-	terminal_writestr("scrolling2\n");
-	terminal_writestr("scrolling3");
-
+	}
+	for(int ind = 1; ind <= 15; ind++){
+		terminal_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, ind);
+		terminal_writestr("ok\n");
+	}
 }
