@@ -1,13 +1,29 @@
-all: boot kernel link
+KERNEL:=kernel/
+OBJPATH:=$(KERNEL)/obj/
+INC=-Ikernel/include/
+
+SOURCE=\
+	$(KERNEL)/src/tty.cpp\
+
+OBJFILES=\
+	$(OBJPATH)/tty.o\
+
+clean:
+	rm $(OBJPATH)/*
+
+all: boot $(OBJFILES) link
 
 boot: boot.s
 	i686-elf-as boot.s -o boot.o
 
-kernel:	kernel.cpp
-	i686-elf-g++ -c kernel.cpp -o kernel.o -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti
+$(OBJFILES):	$(SOURCE)
+	i686-elf-g++ $(SOURCE) -o $(OBJFILES) -ffreestanding -O2 -Wall $(INC) -Wextra -fno-exceptions -fno-rtti
 
-link: linker.ld boot.o kernel.o
-	i686-elf-gcc -T linker.ld -o siknyos.bin -ffreestanding -O2 -nostdlib boot.o kernel.o -lgcc
+kernel:
+	i686-elf-g++ -c $(KERNEL)/kernel.cpp -o $(OBJPATH)/kernel.o -ffreestanding -O2 -Wall $(INC) -Wextra -fno-exceptions -fno-rtti
+
+link: linker.ld boot.o $(OBJPATH)/kernel.o
+	i686-elf-gcc -T linker.ld -o siknyos.bin -ffreestanding -O2 -nostdlib boot.o $(OBJFILES) -lgcc
 
 install:
 	mkdir -p isodir/boot/grub
