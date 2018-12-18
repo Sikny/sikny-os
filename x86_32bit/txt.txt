@@ -1,2 +1,0 @@
-gedit *.* kernel/arch/i386/*.* kernel/include/kernel/tty.h kernel/kernel/kernel.c kernel/Makefile libc/arch/i386/make.config libc/include/*.* libc/include/sys/cdefs.h libc/stdio/*.* libc/stdlib/abort.c libc/string/*.* libc/Makefile &
-
